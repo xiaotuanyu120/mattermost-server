@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/avct/uasurfer"
+	"github.com/spf13/viper"
 	"github.com/mattermost/mattermost-server/model"
 	"github.com/mattermost/mattermost-server/plugin"
 	"github.com/mattermost/mattermost-server/store"
@@ -110,6 +111,16 @@ func (a *App) GetUserForLogin(id, loginId string) (*model.User, *model.AppError)
 }
 
 func (a *App) DoLogin(w http.ResponseWriter, r *http.Request, user *model.User, deviceId string) (*model.Session, *model.AppError) {
+
+	// CUSTOMIZE BEGIN
+	vip_url, vip_whitelist := get_vip_config()
+	if stringInSlice(r.Host, vip_url) {
+		if !stringInSlice(user.Username, vip_whitelist) {
+		    return nil, model.NewAppError("AuthenticateUserForLogin", "api.user.login.vip_limit.app_error", nil, "user.Username", 403)
+		}
+	}
+	// CUSTOMIZE END
+
 	if pluginsEnvironment := a.GetPluginsEnvironment(); pluginsEnvironment != nil {
 		var rejectionReason string
 		pluginContext := a.PluginContext()
@@ -219,3 +230,28 @@ func GetProtocol(r *http.Request) string {
 	}
 	return "http"
 }
+
+// CUSTOMIZE START FUNC
+func stringInSlice(str_in string, str_array []string) bool {
+    for _, i := range str_array {
+        if i == str_in {
+            return true
+        }
+    }
+    return false
+}
+
+func get_vip_config() ([]string, []string) {
+	viper.SetConfigName("vip_whitelist")
+	viper.AddConfigPath("./config")
+	err := viper.ReadInConfig() // Find and read the config file
+	if err != nil { // Handle errors reading the config file
+		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+	}
+
+	vip_url := viper.GetStringSlice("vip_url")
+	vip_whitelist := viper.GetStringSlice("vip_whitelist")
+
+	return vip_url, vip_whitelist
+}
+// CUSTOMIZE END

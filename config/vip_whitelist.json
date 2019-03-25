@@ -1,0 +1,9 @@
+{
+	"vip_url": [
+		"vip1.domain.com",
+	],
+	"vip_whitelist": [
+		"vip_username1",
+		"vip_username2"
+	]
+}
