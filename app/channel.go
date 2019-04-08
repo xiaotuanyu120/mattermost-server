@@ -689,6 +689,63 @@ func (a *App) UpdateChannelMemberRoles(channelId string, userId string, newRoles
 	return member, nil
 }
 
+func (a *App) UpdateChannelMemberRolesCmd(channelId string, userId string, newRoles string) (*model.ChannelMember, *model.AppError) {
+	var member *model.ChannelMember
+	var err *model.AppError
+	if member, err = a.GetChannelMember(channelId, userId); err != nil {
+		return nil, err
+	}
+
+	schemeUserRole, schemeAdminRole, err := a.GetSchemeRolesForChannel(channelId)
+	if err != nil {
+		return nil, err
+	}
+
+	var newExplicitRoles []string
+	member.SchemeUser = false
+	member.SchemeAdmin = false
+
+
+	for _, roleName := range strings.Fields(newRoles) {
+		if roleName == "system_user" || roleName == "system_admin" {
+			continue
+		}
+
+		role, err := a.GetRoleByName(roleName)
+		if err != nil {
+			err.StatusCode = http.StatusBadRequest
+			return nil, err
+		}
+
+		if !role.SchemeManaged {
+			// The role is not scheme-managed, so it's OK to apply it to the explicit roles field.
+			newExplicitRoles = append(newExplicitRoles, roleName)
+		} else {
+			// The role is scheme-managed, so need to check if it is part of the scheme for this channel or not.
+			switch roleName {
+			case schemeAdminRole:
+				member.SchemeAdmin = true
+			case schemeUserRole:
+				member.SchemeUser = true
+			default:
+				// If not part of the scheme for this channel, then it is not allowed to apply it as an explicit role.
+				return nil, model.NewAppError("UpdateChannelMemberRoles", "api.channel.update_channel_member_roles.scheme_role.app_error", nil, "role_name="+roleName, http.StatusBadRequest)
+			}
+		}
+	}
+
+	member.ExplicitRoles = strings.Join(newExplicitRoles, " ")
+
+	result := <-a.Srv.Store.Channel().UpdateMember(member)
+	if result.Err != nil {
+		return nil, result.Err
+	}
+	member = result.Data.(*model.ChannelMember)
+
+	a.InvalidateCacheForUser(userId)
+	return member, nil
+}
+
 func (a *App) UpdateChannelMemberSchemeRoles(channelId string, userId string, isSchemeUser bool, isSchemeAdmin bool) (*model.ChannelMember, *model.AppError) {
 	member, err := a.GetChannelMember(channelId, userId)
 	if err != nil {
