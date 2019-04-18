@@ -417,6 +417,105 @@ func TestGetUser(t *testing.T) {
 	}
 }
 
+func TestGetUserWithAcceptedTermsOfServiceForOtherUser(t *testing.T) {
+	th := Setup().InitBasic()
+	defer th.TearDown()
+
+	user := th.CreateUser()
+
+	tos, _ := th.App.CreateTermsOfService("Dummy TOS", user.Id)
+
+	th.App.UpdateUser(user, false)
+
+	ruser, resp := th.Client.GetUser(user.Id, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	assert.Empty(t, ruser.TermsOfServiceId)
+
+	th.App.SaveUserTermsOfService(user.Id, tos.Id, true)
+
+	ruser, resp = th.Client.GetUser(user.Id, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	// user TOS data cannot be fetched for other users by non-admin users
+	assert.Empty(t, ruser.TermsOfServiceId)
+}
+
+func TestGetUserWithAcceptedTermsOfService(t *testing.T) {
+	th := Setup().InitBasic()
+	defer th.TearDown()
+
+	user := th.BasicUser
+
+	tos, _ := th.App.CreateTermsOfService("Dummy TOS", user.Id)
+
+	ruser, resp := th.Client.GetUser(user.Id, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	assert.Empty(t, ruser.TermsOfServiceId)
+
+	th.App.SaveUserTermsOfService(user.Id, tos.Id, true)
+
+	ruser, resp = th.Client.GetUser(user.Id, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	// a user can view their own TOS details
+	assert.Equal(t, tos.Id, ruser.TermsOfServiceId)
+}
+
+func TestGetUserWithAcceptedTermsOfServiceWithAdminUser(t *testing.T) {
+	th := Setup().InitBasic()
+	th.LoginSystemAdmin()
+	defer th.TearDown()
+
+	user := th.BasicUser
+
+	tos, _ := th.App.CreateTermsOfService("Dummy TOS", user.Id)
+
+	ruser, resp := th.SystemAdminClient.GetUser(user.Id, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	assert.Empty(t, ruser.TermsOfServiceId)
+
+	th.App.SaveUserTermsOfService(user.Id, tos.Id, true)
+
+	ruser, resp = th.SystemAdminClient.GetUser(user.Id, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	// admin can view anyone's TOS details
+	assert.Equal(t, tos.Id, ruser.TermsOfServiceId)
+}
+
 func TestGetBotUser(t *testing.T) {
 	th := Setup().InitBasic()
 	defer th.TearDown()
@@ -498,6 +597,36 @@ func TestGetUserByUsername(t *testing.T) {
 	}
 	if ruser.LastName == "" {
 		t.Fatal("last name should not be blank")
+	}
+}
+
+func TestGetUserByUsernameWithAcceptedTermsOfService(t *testing.T) {
+	th := Setup().InitBasic()
+	defer th.TearDown()
+
+	user := th.BasicUser
+
+	ruser, resp := th.Client.GetUserByUsername(user.Username, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	tos, _ := th.App.CreateTermsOfService("Dummy TOS", user.Id)
+	th.App.SaveUserTermsOfService(ruser.Id, tos.Id, true)
+
+	ruser, resp = th.Client.GetUserByUsername(user.Username, "")
+	CheckNoError(t, resp)
+	CheckUserSanitization(t, ruser)
+
+	if ruser.Email != user.Email {
+		t.Fatal("emails did not match")
+	}
+
+	if ruser.TermsOfServiceId != tos.Id {
+		t.Fatal("Terms of service ID didn't match")
 	}
 }
 
@@ -2507,6 +2636,26 @@ func TestLogin(t *testing.T) {
 
 		_, resp = th.Client.Login(botUser.Email, "password")
 		CheckErrorMessage(t, resp, "api.user.login.bot_login_forbidden.app_error")
+	})
+
+	t.Run("login with terms_of_service set", func(t *testing.T) {
+		termsOfService, err := th.App.CreateTermsOfService("terms of service", th.BasicUser.Id)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		success, resp := th.Client.RegisterTermsOfServiceAction(th.BasicUser.Id, termsOfService.Id, true)
+		CheckNoError(t, resp)
+		assert.True(t, *success)
+
+		userTermsOfService, resp := th.Client.GetUserTermsOfService(th.BasicUser.Id, "")
+		CheckNoError(t, resp)
+
+		user, resp := th.Client.Login(th.BasicUser.Email, th.BasicUser.Password)
+		CheckNoError(t, resp)
+		assert.Equal(t, user.Id, th.BasicUser.Id)
+		assert.Equal(t, user.TermsOfServiceId, userTermsOfService.TermsOfServiceId)
+		assert.Equal(t, user.TermsOfServiceCreateAt, userTermsOfService.CreateAt)
 	})
 }
 

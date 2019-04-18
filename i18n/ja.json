@@ -77,7 +77,7 @@
   },
   {
     "id": "api.admin.remove_certificate.delete.app_error",
-    "translation": "証明書を削除する際にエラーが発生しました。config/{{.Filename}}にファイルが存在することを確認してください。"
+    "translation": "証明書を削除中にエラーが発生しました。"
   },
   {
     "id": "api.admin.saml.metadata.app_error",
@@ -959,6 +959,10 @@
     "translation": "クライアントの設定で新しい形式がまだサポートされていません。クエリー文字列に format=old を指定してください。"
   },
   {
+    "id": "api.config.update_config.restricted_merge.app_error",
+    "translation": "設定をマージできませんでした。"
+  },
+  {
     "id": "api.context.404.app_error",
     "translation": "申し訳ありません。ページが見付かりません。"
   },
@@ -1213,6 +1217,10 @@
     "translation": "ファイルをアップロードできませんでした。リクエストデータを読み込み、もしくは解析する際にエラーが発生しました。"
   },
   {
+    "id": "api.file.upload_file.rejected_by_plugin.app_error",
+    "translation": "ファイル {{.FIlename}} をアップロードできませんでした。プラグインによって拒否されました: {{.Reason}}"
+  },
+  {
     "id": "api.file.upload_file.storage.app_error",
     "translation": "画像ファイルをアップロードできません。画像ストレージが設定されていません。"
   },
@@ -1457,6 +1465,10 @@
     "translation": "別のクライアントから同一リクエストが送信されたため、投稿は拒否されました。"
   },
   {
+    "id": "api.post.delete_post.can_not_delete_post_in_deleted.error",
+    "translation": "削除されたチャンネルの投稿は削除できません。"
+  },
+  {
     "id": "api.post.disabled_all",
     "translation": "チャンネルに{{.Users}}以上のユーザーがいるため@allは無効化されています。"
   },
@@ -1495,6 +1507,14 @@
     "translation": "リンクプレビュー機能はシステム管理者によって無効にされています。"
   },
   {
+    "id": "api.post.patch_post.can_not_update_post_in_deleted.error",
+    "translation": "削除されたチャンネルの投稿は更新できません。"
+  },
+  {
+    "id": "api.post.save_is_pinned_post.town_square_read_only",
+    "translation": "このチャンネルは読み取り専用です。権限のあるメンバーのみがこのチャンネルの投稿をピン留めできます。"
+  },
+  {
     "id": "api.post.send_notification_and_forget.push_channel_mention",
     "translation": " がチャンネルへ通知しました。"
   },
@@ -1521,6 +1541,10 @@
   {
     "id": "api.post.send_notifications_and_forget.push_message",
     "translation": "あなたへメッセージを送信しました。"
+  },
+  {
+    "id": "api.post.update_post.can_not_update_post_in_deleted.error",
+    "translation": "削除されたチャンネルの投稿は更新できません。"
   },
   {
     "id": "api.post.update_post.find.app_error",
@@ -1573,6 +1597,10 @@
   {
     "id": "api.reaction.town_square_read_only",
     "translation": "読み取り専用チャンネルで投稿へリアクションすることはできません。"
+  },
+  {
+    "id": "api.restricted_system_admin",
+    "translation": "この操作は制限付きシステム管理者に対して禁止されています。"
   },
   {
     "id": "api.roles.patch_roles.license.error",
@@ -1751,6 +1779,10 @@
     "translation": "不正なリクエスト: ファイルサイズ項目が存在しません。"
   },
   {
+    "id": "api.team.invalidate_all_email_invites.app_error",
+    "translation": "電子メール招待の無効化でエラーが発生しました"
+  },
+  {
     "id": "api.team.invite_members.disabled.app_error",
     "translation": "招待メールは無効化されています。"
   },
@@ -1772,7 +1804,7 @@
   },
   {
     "id": "api.team.is_team_creation_allowed.domain.app_error",
-    "translation": "電子メールは特定のドメイン(例えば、@example.com)から送信される必要があります。詳細はシステム管理者に問い合わせてください。"
+    "translation": "電子メールアドレスが特定のドメイン(例えば、@example.com)である必要があります。詳細はシステム管理者に問い合わせてください。"
   },
   {
     "id": "api.team.join_team.post_and_forget",
@@ -1780,7 +1812,7 @@
   },
   {
     "id": "api.team.join_user_to_team.allowed_domains.app_error",
-    "translation": "電子メールは特定のドメイン(例えば、@example.com)から送信される必要があります。詳細はチーム管理者かシステム管理者に問い合わせてください。"
+    "translation": "電子メールアドレスが特定のドメイン(例えば、@example.com)である必要があります。詳細はチーム管理者かシステム管理者に問い合わせてください。"
   },
   {
     "id": "api.team.leave.left",
@@ -2167,6 +2199,10 @@
     "translation": "このサーバーではOAuth 2.0を利用した{{.Service}}のシングルサインオンは利用できません。"
   },
   {
+    "id": "api.user.create_email_token.error",
+    "translation": "電子メール確認のトークンデータを生成できませんでした。"
+  },
+  {
     "id": "api.user.create_oauth_user.already_attached.app_error",
     "translation": "{{.Service}}以外のサインイン方法を使ってその電子メールアドレスを関連付けられたアカウントが既に存在します。{{.Auth}}でサインインしてください。"
   },
@@ -2255,6 +2291,10 @@
     "translation": "パスワード欄は空欄にできません"
   },
   {
+    "id": "api.user.login.bot_login_forbidden.app_error",
+    "translation": "ボットログインは禁止されています"
+  },
+  {
     "id": "api.user.login.client_side_cert.certificate.app_error",
     "translation": "有効な証明書が無い状態で、実験的な機能である ClientSideCert でのサインインを試みました"
   },
@@ -2277,6 +2317,10 @@
   {
     "id": "api.user.login.use_auth_service.app_error",
     "translation": "{{.AuthService}}を使ってサインインしてください"
+  },
+  {
+    "id": "api.user.login_by_oauth.bot_login_forbidden.app_error",
+    "translation": "ボットログインは禁止されています"
   },
   {
     "id": "api.user.login_by_oauth.not_available.app_error",
@@ -2473,6 +2517,14 @@
   {
     "id": "api.user.verify_email.broken_token.app_error",
     "translation": "電子メールトークンタイプの検証エラー。"
+  },
+  {
+    "id": "api.user.verify_email.link_expired.app_error",
+    "translation": "電子メール確認リンクは有効期限がきれています。"
+  },
+  {
+    "id": "api.user.verify_email.token_parse.error",
+    "translation": "電子メール確認のトークンデータを解析できませんでした。"
   },
   {
     "id": "api.web_socket.connect.upgrade.app_error",
@@ -3243,6 +3295,10 @@
     "translation": "指定された役割は存在しません。"
   },
   {
+    "id": "app.save_config.app_error",
+    "translation": "設定を保存する際にエラーが発生しました"
+  },
+  {
     "id": "app.schemes.is_phase_2_migration_completed.not_completed.app_error",
     "translation": "要求された移行処理が完了していないため、このAPIエンドポイントにアクセスできません。"
   },
@@ -3433,6 +3489,10 @@
   {
     "id": "ent.elasticsearch.indexer.do_job.parse_start_time.error",
     "translation": "Elasticsearchインデックス付与ワーカーが開始時刻を解析できませんでした"
+  },
+  {
+    "id": "ent.elasticsearch.indexer.index_batch.nothing_left_to_index.error",
+    "translation": "すべてのエンティティが完了した際に、新しいバッチへのインデックス付与が行われます。"
   },
   {
     "id": "ent.elasticsearch.not_started.error",
@@ -3659,10 +3719,6 @@
     "translation": "認証プロバイダーへのリクエストをエンコードする際にエラーが発生しました。システム管理者に連絡してください。"
   },
   {
-    "id": "ent.saml.configure.app_error",
-    "translation": "SAMLサービスプロバイダーを設定する際にエラーが発生しました。err=%v"
-  },
-  {
     "id": "ent.saml.configure.encryption_not_enabled.app_error",
     "translation": "SAMLログインは、暗号化が有効になっていないため、失敗しました。システム管理者に連絡してください。"
   },
@@ -3861,6 +3917,30 @@
   {
     "id": "model.authorize.is_valid.user_id.app_error",
     "translation": "不正なユーザーIDです"
+  },
+  {
+    "id": "model.bot.is_valid.create_at.app_error",
+    "translation": "不正なcreate atです"
+  },
+  {
+    "id": "model.bot.is_valid.creator_id.app_error",
+    "translation": "不正なcreator idです"
+  },
+  {
+    "id": "model.bot.is_valid.description.app_error",
+    "translation": "不正な説明です"
+  },
+  {
+    "id": "model.bot.is_valid.update_at.app_error",
+    "translation": "不正なupdate atです"
+  },
+  {
+    "id": "model.bot.is_valid.user_id.app_error",
+    "translation": "不正なユーザーIDです"
+  },
+  {
+    "id": "model.bot.is_valid.username.app_error",
+    "translation": "不正なユーザー名です"
   },
   {
     "id": "model.channel.is_valid.2_or_more.app_error",
@@ -4132,7 +4212,11 @@
   },
   {
     "id": "model.config.is_valid.atmos_camo_image_proxy_options.app_error",
-    "translation": "atmos/camo 画像プロキシの設定が不正です。共有キーを設定する必要があります。"
+    "translation": "atmos/camoに対する不正な RemoteImageProxyOption です。共有キーを設定してください。"
+  },
+  {
+    "id": "model.config.is_valid.atmos_camo_image_proxy_url.app_error",
+    "translation": "atmos/camoに対する不正な RemoteImgeProxyURL です。共有キーを設定してください。"
   },
   {
     "id": "model.config.is_valid.cluster_email_batching.app_error",
@@ -4220,7 +4304,7 @@
   },
   {
     "id": "model.config.is_valid.image_proxy_type.app_error",
-    "translation": "画像プロキシタイプの設定が不正です。"
+    "translation": "不正な画像プロキシの形式です。'local' か 'atmos/camo' を設定してください。"
   },
   {
     "id": "model.config.is_valid.ldap_basedn",
@@ -4389,6 +4473,10 @@
   {
     "id": "model.config.is_valid.site_url_email_batching.app_error",
     "translation": "SiteURLが設定されていないため電子メールのバッチ処理は有効化できません。"
+  },
+  {
+    "id": "model.config.is_valid.sitename_empty.app_error",
+    "translation": "サイト名を空にすることはできません。"
   },
   {
     "id": "model.config.is_valid.sitename_length.app_error",
@@ -4625,6 +4713,30 @@
   {
     "id": "model.license_record.is_valid.id.app_error",
     "translation": "ライセンスをアップロードする際のidが不正な値です。"
+  },
+  {
+    "id": "model.link_metadata.is_valid.data.app_error",
+    "translation": "リンクメタデータのデータをnilにすることはできません"
+  },
+  {
+    "id": "model.link_metadata.is_valid.data_type.app_error",
+    "translation": "リンクメタデータのデータが指定された種別と異なります"
+  },
+  {
+    "id": "model.link_metadata.is_valid.id.app_error",
+    "translation": "リンクメタデータのIDが不正です"
+  },
+  {
+    "id": "model.link_metadata.is_valid.timestamp.app_error",
+    "translation": "リンクメタデータのタイムスタンプはゼロでない値で、最も近い時間に丸められている必要があります"
+  },
+  {
+    "id": "model.link_metadata.is_valid.type.app_error",
+    "translation": "リンクメタデータの種別が不正です"
+  },
+  {
+    "id": "model.link_metadata.is_valid.url.app_error",
+    "translation": "リンクメタデータのURLを設定してください"
   },
   {
     "id": "model.oauth.is_valid.app_id.app_error",
@@ -5095,6 +5207,34 @@
     "translation": "監査データを保存する際にエラーが発生しました"
   },
   {
+    "id": "store.sql_bot.delete.app_error",
+    "translation": "ボットを削除できませんでした"
+  },
+  {
+    "id": "store.sql_bot.get.app_error",
+    "translation": "ボットを取得できませんでした"
+  },
+  {
+    "id": "store.sql_bot.get.missing.app_error",
+    "translation": "ボットが存在しません"
+  },
+  {
+    "id": "store.sql_bot.get_all.app_error",
+    "translation": "ボットを取得できませんでした"
+  },
+  {
+    "id": "store.sql_bot.save.app_error",
+    "translation": "ボットを保存できませんでした"
+  },
+  {
+    "id": "store.sql_bot.update.app_error",
+    "translation": "ボットを更新できませんでした"
+  },
+  {
+    "id": "store.sql_bot.update.updating.app_error",
+    "translation": "ボットを更新する際にエラーが発生しました"
+  },
+  {
     "id": "store.sql_channel.analytics_deleted_type_count.app_error",
     "translation": "削除済みのチャンネル形式数を取得できませんでした"
   },
@@ -5161,6 +5301,10 @@
   {
     "id": "store.sql_channel.get_channels.not_found.app_error",
     "translation": "チャンネルが見付かりませんでした"
+  },
+  {
+    "id": "store.sql_channel.get_channels_batch_for_indexing.get.app_error",
+    "translation": "インデックス付与のためのチャンネルのバッチ処理を取得できませんでした"
   },
   {
     "id": "store.sql_channel.get_channels_by_ids.get.app_error",
@@ -6031,6 +6175,10 @@
     "translation": "このコードのトークンを取得できません"
   },
   {
+    "id": "store.sql_recover.remove_all_tokens_by_type.app_error",
+    "translation": "そのタイプのすべてのトークンを削除できませんでした"
+  },
+  {
     "id": "store.sql_recover.save.app_error",
     "translation": "トークンを保存できません"
   },
@@ -6267,6 +6415,10 @@
     "translation": "全てのチームを取得できませんでした"
   },
   {
+    "id": "store.sql_team.get_all_private_team_listing.app_error",
+    "translation": "全ての非公開チームを取得できませんでした"
+  },
+  {
     "id": "store.sql_team.get_all_team_listing.app_error",
     "translation": "全てのチームを取得できませんでした"
   },
@@ -6371,6 +6523,10 @@
     "translation": "公開されているチームを検索する際にエラーが発生しました"
   },
   {
+    "id": "store.sql_team.search_private_team.app_error",
+    "translation": "非公開チームを検索する際にエラーが発生しました"
+  },
+  {
     "id": "store.sql_team.update.app_error",
     "translation": "チームを更新できませんでした"
   },
@@ -6425,6 +6581,10 @@
   {
     "id": "store.sql_user.analytics_unique_user_count.app_error",
     "translation": "重複ないユーザー数を取得できませんでした"
+  },
+  {
+    "id": "store.sql_user.app_error",
+    "translation": "クエリーを構築できませんでした"
   },
   {
     "id": "store.sql_user.clear_all_custom_role_assignments.commit_transaction.app_error",
@@ -6501,6 +6661,18 @@
   {
     "id": "store.sql_user.get_unread_count_for_channel.app_error",
     "translation": "ユーザーとチャンネルの未読のメッセージ数を取得できませんでした"
+  },
+  {
+    "id": "store.sql_user.get_users_batch_for_indexing.get_channel_members.app_error",
+    "translation": "インデックス付与のためのユーザーバッチ処理においてチャンネルメンバーを取得できませんでした"
+  },
+  {
+    "id": "store.sql_user.get_users_batch_for_indexing.get_team_members.app_error",
+    "translation": "インデックス付与のためのユーザーバッチ処理においてチームメンバーを取得できませんでした"
+  },
+  {
+    "id": "store.sql_user.get_users_batch_for_indexing.get_users.app_error",
+    "translation": "インデックス付与のためのユーザーのバッチ処理を取得できませんでした"
   },
   {
     "id": "store.sql_user.missing_account.const",
