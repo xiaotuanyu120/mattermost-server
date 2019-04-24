@@ -119,7 +119,7 @@ func makeChannelAdminCmdF(command *cobra.Command, args []string) error {
 	users := getUsersFromUserArgs(a, args[1:])
 	for i, user := range users {
 		if user == nil {
-			return errors.New("Unable to find user '" + args[i] + "'")
+			return errors.New("Unable to find user '" + args[i+1] + "'")
 		}
 
 		channelAdmin := false
