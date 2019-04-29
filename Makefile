@@ -4,7 +4,8 @@ ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 IS_CI ?= false
 # Build Flags
-BUILD_NUMBER ?= $(BUILD_NUMBER:)
+#BUILD_NUMBER ?= $(BUILD_NUMBER:)
+BUILD_NUMBER ?= customize_version
 BUILD_DATE = $(shell date -u)
 BUILD_HASH = $(shell git rev-parse HEAD)
 # If we don't set the build number it defaults to dev
